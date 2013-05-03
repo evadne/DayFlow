@@ -318,6 +318,7 @@ static NSString * const DFDatePickerViewMonthHeaderIdentifier = @"monthHeader";
 	cell.date = cellPickerDate;
 	cell.enabled = ((firstDayPickerDate.year == cellPickerDate.year) && (firstDayPickerDate.month == cellPickerDate.month));
 	cell.selected = [self.selectedDate isEqualToDate:cellDate];
+    cell.hasActivity = [self.dataSource datePickerView:self shouldShowActivityOnDate:cellDate];
 	
 	return cell;
 	

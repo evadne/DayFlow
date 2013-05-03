@@ -5,5 +5,6 @@
 
 @property (nonatomic, readwrite, assign) DFDatePickerDate date;
 @property (nonatomic, getter=isEnabled) BOOL enabled;
+@property (nonatomic, assign) BOOL hasActivity;
 
 @end
