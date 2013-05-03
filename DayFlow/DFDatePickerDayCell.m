@@ -39,6 +39,12 @@
 	[self setNeedsLayout];
 }
 
+- (void) setHasActivity:(BOOL)hasActivity
+{
+    _hasActivity = hasActivity;
+    [self setNeedsLayout];
+}
+
 - (void) layoutSubviews {
 	
 	[super layoutSubviews];
@@ -88,6 +94,12 @@
 		CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);
 		[[NSString stringWithFormat:@"%i", self.date.day] drawInRect:textBounds withFont:font lineBreakMode:NSLineBreakByCharWrapping alignment:NSTextAlignmentCenter];
 		
+        if (self.hasActivity){
+            CGFloat circleWidth = 5.0;
+            CGRect circleRect = (CGRectMake((self.bounds.size.width / 2) - (circleWidth / 2), self.bounds.size.height - (circleWidth * 2), circleWidth, circleWidth));
+            CGContextFillEllipseInRect(context, circleRect);
+        }
+        
 		UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
 		UIGraphicsEndImageContext();
 		
