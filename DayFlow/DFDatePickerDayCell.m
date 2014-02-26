@@ -103,14 +103,10 @@
 	}];
 	
 	self.activityDot.image = [[self class] fetchObjectForKey:[[self class] cacheKeyForActivity:self.hasActivity] withCreator:^id{
-		UIGraphicsBeginImageContextWithOptions(self.activityDot.bounds.size, YES, self.window.screen.scale);
+		UIGraphicsBeginImageContextWithOptions(self.activityDot.bounds.size, NO, self.window.screen.scale);
 		CGContextRef context = UIGraphicsGetCurrentContext();
 		
 		if (self.hasActivity){
-			
-			CGContextSetFillColorWithColor(context, [UIColor colorWithRed:53.0f/256.0f green:145.0f/256.0f blue:195.0f/256.0f alpha:1.0f].CGColor);
-			CGContextFillRect(context, self.activityDot.bounds);
-			
 			CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);
 			CGContextFillEllipseInRect(context, self.activityDot.bounds);
 		}
