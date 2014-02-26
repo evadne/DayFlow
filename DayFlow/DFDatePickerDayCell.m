@@ -6,6 +6,7 @@
 + (id) fetchObjectForKey:(id)key withCreator:(id(^)(void))block;
 @property (nonatomic, readonly, strong) UIImageView *imageView;
 @property (nonatomic, readonly, strong) UIView *overlayView;
+@property (nonatomic, strong) UIImageView *activityDot;
 @end
 
 @implementation DFDatePickerDayCell
@@ -37,6 +38,12 @@
 - (void) setSelected:(BOOL)selected {
 	[super setSelected:selected];
 	[self setNeedsLayout];
+}
+
+- (void) setHasActivity:(BOOL)hasActivity
+{
+    _hasActivity = hasActivity;
+    [self setNeedsLayout];
 }
 
 - (void) layoutSubviews {
@@ -95,6 +102,26 @@
 		
 	}];
 	
+	self.activityDot.image = [[self class] fetchObjectForKey:[[self class] cacheKeyForActivity:self.hasActivity] withCreator:^id{
+		UIGraphicsBeginImageContextWithOptions(self.activityDot.bounds.size, YES, self.window.screen.scale);
+		CGContextRef context = UIGraphicsGetCurrentContext();
+		
+		if (self.hasActivity){
+			
+			CGContextSetFillColorWithColor(context, [UIColor colorWithRed:53.0f/256.0f green:145.0f/256.0f blue:195.0f/256.0f alpha:1.0f].CGColor);
+			CGContextFillRect(context, self.activityDot.bounds);
+			
+			CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);
+			CGContextFillEllipseInRect(context, self.activityDot.bounds);
+		}
+		
+		UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+		UIGraphicsEndImageContext();
+		return image;
+	}];
+	
+	self.activityDot.hidden = !self.hasActivity;
+	
 	self.overlayView.hidden = !(self.selected || self.highlighted);
 
 }
@@ -119,6 +146,17 @@
 	return _imageView;
 }
 
+- (UIImageView *) activityDot {
+	if (!_activityDot) {
+		CGFloat circleWidth = 5.0;
+		CGRect circleRect = (CGRectMake((self.bounds.size.width / 2) - (circleWidth / 2), self.bounds.size.height - (circleWidth * 2), circleWidth, circleWidth));
+		
+		_activityDot = [[UIImageView alloc] initWithFrame:circleRect];
+		[self.contentView addSubview:_activityDot];
+	}
+	return _activityDot;
+}
+
 + (NSCache *) imageCache {
 	static NSCache *cache;
 	static dispatch_once_t onceToken;
@@ -130,6 +168,10 @@
 
 + (id) cacheKeyForPickerDate:(DFDatePickerDate)date {
 	return @(date.day);
+}
+
++ (id) cacheKeyForActivity:(BOOL)hasActivity {
+	return @(hasActivity);
 }
 
 + (id) fetchObjectForKey:(id)key withCreator:(id(^)(void))block {

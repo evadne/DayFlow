@@ -183,7 +183,8 @@ static NSString * const DFDatePickerViewMonthHeaderIdentifier = @"monthHeader";
 	NSIndexPath *fromIndexPath = [cv indexPathForCell:((UICollectionViewCell *)visibleCells[0]) ];
 	NSInteger fromSection = fromIndexPath.section;
 	NSDate *fromSectionOfDate = [self dateForFirstDayInSection:fromSection];
-	CGPoint fromSectionOrigin = [self convertPoint:[cvLayout layoutAttributesForItemAtIndexPath:fromIndexPath].frame.origin fromView:cv];
+	UICollectionViewLayoutAttributes *fromAttrs = [cvLayout layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:fromSection]];
+	CGPoint fromSectionOrigin = [self convertPoint:fromAttrs.frame.origin fromView:cv];
 	
 	_fromDate = [self pickerDateFromDate:[self.calendar dateByAddingComponents:components toDate:[self dateFromPickerDate:self.fromDate] options:0]];
 	_toDate = [self pickerDateFromDate:[self.calendar dateByAddingComponents:components toDate:[self dateFromPickerDate:self.toDate] options:0]];
@@ -318,6 +319,7 @@ static NSString * const DFDatePickerViewMonthHeaderIdentifier = @"monthHeader";
 	cell.date = cellPickerDate;
 	cell.enabled = ((firstDayPickerDate.year == cellPickerDate.year) && (firstDayPickerDate.month == cellPickerDate.month));
 	cell.selected = [self.selectedDate isEqualToDate:cellDate];
+	cell.hasActivity = [self.dataSource datePickerView:self shouldShowActivityOnDate:cellDate];
 	
 	return cell;
 	

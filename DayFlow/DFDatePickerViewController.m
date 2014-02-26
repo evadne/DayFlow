@@ -1,5 +1,9 @@
 #import "DFDatePickerViewController.h"
 
+@interface DFDatePickerViewController () <DFDatePickerViewDataSource>
+
+@end
+
 @implementation DFDatePickerViewController
 @synthesize datePickerView = _datePickerView;
 
@@ -13,6 +17,7 @@
 		_datePickerView = [DFDatePickerView new];
 		_datePickerView.frame = self.view.bounds;
 		_datePickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+		_datePickerView.dataSource = self;
 	}
 	return _datePickerView;
 }
@@ -35,6 +40,11 @@
 			[self.delegate datePickerViewController:self didSelectDate:toDate];
 		}
 	}
+}
+
+- (BOOL) datePickerView:(DFDatePickerView *)datePickerView shouldShowActivityOnDate:(NSDate *)date
+{
+    return [self.delegate datePickerViewController:self shouldShowActivityOnDate:date];
 }
 
 @end
