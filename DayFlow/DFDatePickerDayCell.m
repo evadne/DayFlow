@@ -167,7 +167,7 @@
 }
 
 + (id) cacheKeyForActivity:(BOOL)hasActivity {
-	return @(hasActivity);
+	return [NSString stringWithFormat:@"HasActivity-%d", hasActivity];
 }
 
 + (id) fetchObjectForKey:(id)key withCreator:(id(^)(void))block {
