@@ -5,6 +5,7 @@
 @protocol DFDatePickerViewControllerDelegate
 
 - (void) datePickerViewController:(DFDatePickerViewController *)controller didSelectDate:(NSDate *)date;
+- (BOOL) datePickerViewController:(DFDatePickerViewController *)controller shouldShowActivityOnDate:(NSDate *)date;
 
 @end
 
