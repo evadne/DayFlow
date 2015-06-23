@@ -52,11 +52,11 @@
     UINavigationController *hebrewNC = [[UINavigationController alloc] initWithRootViewController:hebrewVC];
     
     // ----------------
-    // Islamic calendar
+    // Islamic UmmAlQura calendar
     // ----------------
     
     RSDFDatePickerViewController *islamicVC = [[RSDFDatePickerViewController alloc] init];
-    islamicVC.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierIslamic];
+    islamicVC.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierIslamicUmmAlQura];
     islamicVC.calendar.locale = [NSLocale currentLocale];
     UINavigationController *islamicNC = [[UINavigationController alloc] initWithRootViewController:islamicVC];
     
